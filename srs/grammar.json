@@ -1,5 +1,33 @@
 {
-  "cards": [],
+  "cards": [
+    {
+      "id": "g0001",
+      "pattern": "N は です",
+      "meaning_ko": "~는 입니다 (긍정문)",
+      "description": "존댓말 현재 긍정. 한국어 합니다체와 동일한 정중함 수준.",
+      "examples": [
+        {
+          "jp": "私は学生です。",
+          "ko": "나는 학생입니다."
+        },
+        {
+          "jp": "これは本です。",
+          "ko": "이것은 책입니다."
+        },
+        {
+          "jp": "日本は大きいです。",
+          "ko": "일본은 큽니다."
+        }
+      ],
+      "notes": "は(주어 조사) 발음 '하'지만 여기선 '와'. 조사 용법에서만 발음 변경.",
+      "added_date": "2026-05-29",
+      "next_review_date": "2026-05-30",
+      "interval_days": 1,
+      "correct_streak": 1,
+      "total_seen": 1,
+      "total_correct": 1
+    }
+  ],
   "schema_version": "1.0",
   "_comment": "신규 문법 포인트는 cards 배열에 추가. 단어와 동일한 SRS 간격 규칙 적용."
 }
