@@ -1,0 +1,5 @@
+{
+  "cards": [],
+  "schema_version": "1.0",
+  "_comment": "신규 단어는 cards 배열에 추가. 스키마는 CLAUDE.md 참고."
+}

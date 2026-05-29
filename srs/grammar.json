@@ -1,0 +1,5 @@
+{
+  "cards": [],
+  "schema_version": "1.0",
+  "_comment": "신규 문법 포인트는 cards 배열에 추가. 단어와 동일한 SRS 간격 규칙 적용."
+}
