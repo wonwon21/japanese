@@ -1,0 +1,16 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*~
+
+# 백업 폴더 (로컬 전용, git 추적 제외)
+srs/backup/
+
+# Temp
+*.tmp
+*.bak
