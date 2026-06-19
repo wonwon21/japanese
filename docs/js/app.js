@@ -691,6 +691,15 @@ async function saveReview() {
   const date       = todayStr();
 
   try {
+    // Refresh SHAs before writing — prevents 409 when another device or
+    // Claude Code session updated the file since we last loaded it
+    const [freshV, freshG] = await Promise.all([
+      hadVocab   ? gh.getFile('srs/vocab.json')   : Promise.resolve(null),
+      hadGrammar ? gh.getFile('srs/grammar.json') : Promise.resolve(null),
+    ]);
+    if (freshV) S.vocabSha   = freshV.sha;
+    if (freshG) S.grammarSha = freshG.sha;
+
     const saves = [];
     if (hadVocab)   saves.push(gh.putJSON('srs/vocab.json',   S.vocab,   S.vocabSha,   `SRS 복습 ${date}: 단어`));
     if (hadGrammar) saves.push(gh.putJSON('srs/grammar.json', S.grammar, S.grammarSha, `SRS 복습 ${date}: 문법`));
