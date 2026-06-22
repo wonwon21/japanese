@@ -8,11 +8,11 @@
       "example_jp": "私は学生です。",
       "example_ko": "나는 학생입니다.",
       "added_date": "2026-05-29",
-      "next_review_date": "2026-06-22",
-      "interval_days": 3,
-      "correct_streak": 2,
-      "total_seen": 2,
-      "total_correct": 2
+      "next_review_date": "2026-06-29",
+      "interval_days": 7,
+      "correct_streak": 3,
+      "total_seen": 3,
+      "total_correct": 3
     },
     {
       "id": "v0002",
@@ -22,11 +22,11 @@
       "example_jp": "あなたは誰ですか？",
       "example_ko": "너는 누구예요?",
       "added_date": "2026-05-29",
-      "next_review_date": "2026-06-22",
-      "interval_days": 3,
-      "correct_streak": 2,
-      "total_seen": 2,
-      "total_correct": 2
+      "next_review_date": "2026-06-29",
+      "interval_days": 7,
+      "correct_streak": 3,
+      "total_seen": 3,
+      "total_correct": 3
     },
     {
       "id": "v0003",
@@ -36,11 +36,11 @@
       "example_jp": "先生は親切です。",
       "example_ko": "선생님은 친절합니다.",
       "added_date": "2026-05-29",
-      "next_review_date": "2026-06-22",
-      "interval_days": 3,
-      "correct_streak": 2,
-      "total_seen": 2,
-      "total_correct": 2
+      "next_review_date": "2026-06-29",
+      "interval_days": 7,
+      "correct_streak": 3,
+      "total_seen": 3,
+      "total_correct": 3
     },
     {
       "id": "v0004",
@@ -50,11 +50,11 @@
       "example_jp": "私は学生です。",
       "example_ko": "나는 학생입니다.",
       "added_date": "2026-05-29",
-      "next_review_date": "2026-06-22",
-      "interval_days": 3,
-      "correct_streak": 2,
-      "total_seen": 2,
-      "total_correct": 2
+      "next_review_date": "2026-06-29",
+      "interval_days": 7,
+      "correct_streak": 3,
+      "total_seen": 3,
+      "total_correct": 3
     },
     {
       "id": "v0005",
@@ -64,11 +64,11 @@
       "example_jp": "日本は美しいです。",
       "example_ko": "일본은 아름답습니다.",
       "added_date": "2026-05-29",
-      "next_review_date": "2026-06-22",
-      "interval_days": 3,
-      "correct_streak": 2,
-      "total_seen": 2,
-      "total_correct": 2
+      "next_review_date": "2026-06-29",
+      "interval_days": 7,
+      "correct_streak": 3,
+      "total_seen": 3,
+      "total_correct": 3
     },
     {
       "id": "v0006",
@@ -78,11 +78,11 @@
       "example_jp": "私の名前はミナです。",
       "example_ko": "내 이름은 미나입니다.",
       "added_date": "2026-05-29",
-      "next_review_date": "2026-06-22",
-      "interval_days": 3,
-      "correct_streak": 2,
-      "total_seen": 2,
-      "total_correct": 2
+      "next_review_date": "2026-06-29",
+      "interval_days": 7,
+      "correct_streak": 3,
+      "total_seen": 3,
+      "total_correct": 3
     },
     {
       "id": "v0007",
@@ -92,11 +92,11 @@
       "example_jp": "毎日勉強します。",
       "example_ko": "매일 공부합니다.",
       "added_date": "2026-05-29",
-      "next_review_date": "2026-06-22",
-      "interval_days": 3,
-      "correct_streak": 2,
-      "total_seen": 2,
-      "total_correct": 2
+      "next_review_date": "2026-06-29",
+      "interval_days": 7,
+      "correct_streak": 3,
+      "total_seen": 3,
+      "total_correct": 3
     },
     {
       "id": "v0008",
@@ -120,11 +120,11 @@
       "example_jp": "二人です。",
       "example_ko": "둘입니다.",
       "added_date": "2026-05-29",
-      "next_review_date": "2026-06-22",
+      "next_review_date": "2026-06-23",
       "interval_days": 1,
-      "correct_streak": 0,
-      "total_seen": 3,
-      "total_correct": 1
+      "correct_streak": 1,
+      "total_seen": 4,
+      "total_correct": 2
     },
     {
       "id": "v0010",
@@ -176,11 +176,11 @@
       "example_jp": "大きいです。",
       "example_ko": "큽니다.",
       "added_date": "2026-05-29",
-      "next_review_date": "2026-06-22",
-      "interval_days": 3,
-      "correct_streak": 2,
-      "total_seen": 2,
-      "total_correct": 2
+      "next_review_date": "2026-06-29",
+      "interval_days": 7,
+      "correct_streak": 3,
+      "total_seen": 3,
+      "total_correct": 3
     },
     {
       "id": "v0014",
@@ -190,11 +190,11 @@
       "example_jp": "小さいです。",
       "example_ko": "작습니다.",
       "added_date": "2026-05-29",
-      "next_review_date": "2026-06-22",
-      "interval_days": 3,
-      "correct_streak": 2,
-      "total_seen": 2,
-      "total_correct": 2
+      "next_review_date": "2026-06-29",
+      "interval_days": 7,
+      "correct_streak": 3,
+      "total_seen": 3,
+      "total_correct": 3
     },
     {
       "id": "v0015",
@@ -204,11 +204,11 @@
       "example_jp": "私は毎日ご飯を食べます。",
       "example_ko": "나는 매일 밥을 먹습니다.",
       "added_date": "2026-05-29",
-      "next_review_date": "2026-06-22",
-      "interval_days": 3,
-      "correct_streak": 2,
-      "total_seen": 2,
-      "total_correct": 2
+      "next_review_date": "2026-06-29",
+      "interval_days": 7,
+      "correct_streak": 3,
+      "total_seen": 3,
+      "total_correct": 3
     },
     {
       "id": "v0016",
@@ -218,11 +218,11 @@
       "example_jp": "水を飲みます。",
       "example_ko": "물을 마십니다.",
       "added_date": "2026-05-29",
-      "next_review_date": "2026-06-22",
-      "interval_days": 1,
-      "correct_streak": 1,
-      "total_seen": 3,
-      "total_correct": 2
+      "next_review_date": "2026-06-25",
+      "interval_days": 3,
+      "correct_streak": 2,
+      "total_seen": 4,
+      "total_correct": 3
     },
     {
       "id": "v0017",
@@ -260,11 +260,11 @@
       "example_jp": "冷たい水です。",
       "example_ko": "찬 물입니다.",
       "added_date": "2026-05-29",
-      "next_review_date": "2026-06-22",
+      "next_review_date": "2026-06-23",
       "interval_days": 1,
-      "correct_streak": 0,
-      "total_seen": 3,
-      "total_correct": 1
+      "correct_streak": 1,
+      "total_seen": 4,
+      "total_correct": 2
     },
     {
       "id": "v0020",
