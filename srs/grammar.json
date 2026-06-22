@@ -21,11 +21,11 @@
       ],
       "notes": "は(주어 조사) 발음 '하'지만 여기선 '와'. 조사 용법에서만 발음 변경.",
       "added_date": "2026-05-29",
-      "next_review_date": "2026-06-22",
-      "interval_days": 3,
-      "correct_streak": 2,
-      "total_seen": 2,
-      "total_correct": 2
+      "next_review_date": "2026-06-29",
+      "interval_days": 7,
+      "correct_streak": 3,
+      "total_seen": 3,
+      "total_correct": 3
     },
     {
       "id": "g0002",
@@ -48,11 +48,11 @@
       ],
       "notes": "い형용사는 -い가 이미 있으므로 ❌い형용詞 + です (중복 X). ✓い형容詞 + です (있는 그대로). 부정: い → くない (예: 大きくないです).",
       "added_date": "2026-05-29",
-      "next_review_date": "2026-06-22",
-      "interval_days": 3,
-      "correct_streak": 2,
-      "total_seen": 2,
-      "total_correct": 2
+      "next_review_date": "2026-06-29",
+      "interval_days": 7,
+      "correct_streak": 3,
+      "total_seen": 3,
+      "total_correct": 3
     },
     {
       "id": "g0003",
@@ -75,11 +75,11 @@
       ],
       "notes": "부정: ます → ません (예: 行きません = 가지 않습니다). -う그룹 음편은 한국어에 없는 변형이므로 외우기 필요.",
       "added_date": "2026-05-29",
-      "next_review_date": "2026-06-22",
-      "interval_days": 3,
-      "correct_streak": 2,
-      "total_seen": 2,
-      "total_correct": 2
+      "next_review_date": "2026-06-29",
+      "interval_days": 7,
+      "correct_streak": 3,
+      "total_seen": 3,
+      "total_correct": 3
     }
   ],
   "schema_version": "1.0",
