@@ -139,7 +139,7 @@ const S = {
   lessonFiles: null,
   refFiles: null,
   // review session
-  rq: [], ri: 0, rResults: [], rFlipped: false, rMode: 'all', rAll: false,
+  rq: [], ri: 0, rResults: [], rFlipped: false, rMode: 'all', rAll: true,
   // kana session
   kq: [], ki: 0, kFlipped: false,
   // detail views
@@ -168,8 +168,6 @@ async function render() {
     bindSettings();
     return;
   }
-
-  if (r === '/review') S.rAll = false; // nav-triggered reset; quiz buttons set rAll before calling reviewPage() directly
 
   paint('<div class="loading">로딩 중...</div>');
 
