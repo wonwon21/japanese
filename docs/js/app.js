@@ -139,7 +139,7 @@ const S = {
   lessonFiles: null,
   refFiles: null,
   // review session
-  rq: [], ri: 0, rResults: [], rFlipped: false,
+  rq: [], ri: 0, rResults: [], rFlipped: false, rMode: 'all',
   // kana session
   kq: [], ki: 0, kFlipped: false,
   // detail views
@@ -180,6 +180,7 @@ async function render() {
     else if (r === '/grammar')   html = await grammarPage();
     else if (r === '/lessons')   html = await lessonsPage();
     else if (r === '/reference') html = await referencePage();
+    else if (r === '/music')     html = await musicPage();
     else if (r === '/settings')  html = settingsPage(false);
     else                         html = '<p>페이지를 찾을 수 없습니다.</p>';
     paint(html);
@@ -290,7 +291,10 @@ async function reviewPage() {
   // Always rebuild queue on page entry
   const dv = vocab.cards.filter(isDue).map(c => Object.assign({}, c, { _type: 'vocab' }));
   const dg = grammar.cards.filter(isDue).map(c => Object.assign({}, c, { _type: 'grammar' }));
-  S.rq = [...dv, ...dg].sort(() => Math.random() - 0.5);
+  const allCards = S.rMode === 'vocab'   ? dv
+                 : S.rMode === 'grammar' ? dg
+                 : [...dv, ...dg].sort(() => Math.random() - 0.5);
+  S.rq = allCards;
   S.ri = 0; S.rResults = []; S.rFlipped = false;
 
   if (S.rq.length === 0) {
@@ -341,6 +345,11 @@ function reviewCardHtml() {
 
   return `
 <h1 class="page-title">🃏 SRS 복습</h1>
+<div class="mode-tabs">
+  <button class="mode-tab${S.rMode==='all'?' active':''}"     data-mode="all">전체</button>
+  <button class="mode-tab${S.rMode==='vocab'?' active':''}"   data-mode="vocab">단어만</button>
+  <button class="mode-tab${S.rMode==='grammar'?' active':''}" data-mode="grammar">문법만</button>
+</div>
 <div class="progress-text">${S.ri + 1} / ${S.rq.length}</div>
 <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
 
@@ -395,7 +404,7 @@ async function kanaPage() {
   // Build queue: weak first, then random sample
   const weak = HIRAGANA.filter(k => weakSet.has(k.c));
   const rest  = HIRAGANA.filter(k => !weakSet.has(k.c)).sort(() => Math.random() - 0.5);
-  S.kq = [...weak, ...rest].slice(0, 20);
+  S.kq = [...weak, ...rest];
   S.ki = 0; S.kFlipped = false;
 
   return kanaCardHtml();
@@ -480,8 +489,15 @@ function vocabTableHtml(cards) {
 // ── Grammar ───────────────────────────────────────────────────────────────
 async function grammarPage() {
   const g = await loadGrammar();
+  const due = g.cards.filter(isDue).length;
   return `
 <h1 class="page-title">📝 문법</h1>
+<div style="margin-bottom:24px;display:flex;align-items:center;gap:16px">
+  <button class="btn btn-primary" id="grammar-quiz-btn">
+    🃏 문법 퀴즈 시작${due > 0 ? ` (${due}개 복습 대기)` : ''}
+  </button>
+  <span style="color:var(--dim);font-size:13px">문법만 따로 퀴즈</span>
+</div>
 ${g.cards.map(c => `
 <div class="grammar-card">
   <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
@@ -562,6 +578,107 @@ async function referencePage() {
 </ul>`;
 }
 
+// ── Music ─────────────────────────────────────────────────────────────────
+const SONGS = [
+  {
+    title: 'さんぽ',
+    artist: '井上あずみ (となりのトトロ)',
+    level: 'N5 완벽',
+    youtube: 'さんぽ となりのトトロ',
+    why: '짧은 문장, 반복 구조. 歩こう(걷자)、元気(건강함) 등 기초 어휘. 발음 명확.',
+    vocab: ['私'],
+  },
+  {
+    title: 'となりのトトロ',
+    artist: '井上あずみ',
+    level: 'N5',
+    youtube: 'となりのトトロ 主題歌',
+    why: '毎日、家 등 학습한 단어 등장. 반복 가사로 외우기 쉬움.',
+    vocab: ['毎日', '家'],
+  },
+  {
+    title: '犬のおまわりさん',
+    artist: '童謡',
+    level: 'N5 완벽',
+    youtube: '犬のおまわりさん 童謡',
+    why: '名前、泣く 등 N5 어휘. 매우 느리고 발음 명확.',
+    vocab: ['名前'],
+  },
+  {
+    title: 'アンパンマンのマーチ',
+    artist: 'ドリーミング',
+    level: 'N5',
+    youtube: 'アンパンマンのマーチ 歌詞',
+    why: '何のために生まれて — 何(뭐) 등장. 의미 있는 가사, 발음 쉬움.',
+    vocab: [],
+  },
+  {
+    title: 'ちょうちょ',
+    artist: '童謡',
+    level: 'N5 완벽',
+    youtube: 'ちょうちょ 童謡',
+    why: '가장 짧은 동요 중 하나. 小さい 등 N5 어휘.',
+    vocab: ['小さい'],
+  },
+  {
+    title: 'ぞうさん',
+    artist: '童謡',
+    level: 'N5 완벽',
+    youtube: 'ぞうさん 童謡',
+    why: '매우 단순한 구조. 誰(누구)、好き(좋아함) 반복.',
+    vocab: [],
+  },
+  {
+    title: '上を向いて歩こう (Sukiyaki)',
+    artist: '坂本九',
+    level: 'N4~N5',
+    youtube: '上を向いて歩こう 坂本九',
+    why: '세계적으로 유명. 歩く(걷다) 핵심 동사. 멜로디로 먼저 익숙해지기 좋음.',
+    vocab: [],
+  },
+  {
+    title: 'パプリカ',
+    artist: 'Foorin',
+    level: 'N4~N5',
+    youtube: 'パプリカ Foorin 歌詞',
+    why: '현대 어린이 노래. 花が咲く — 花(꽃)、咲く(피다). 발음 정확하고 느림.',
+    vocab: [],
+  },
+];
+
+async function musicPage() {
+  const vocab = await loadVocab();
+  const knownKanji = new Set(vocab.cards.map(c => c.kanji).filter(Boolean));
+
+  return `
+<h1 class="page-title">🎵 음악 추천</h1>
+<div class="alert alert-info" style="margin-bottom:24px">
+  현재 학습한 단어 <strong>${vocab.cards.length}개</strong> 기반 추천.<br>
+  곡명 클릭 → YouTube 검색어 복사 → YouTube에서 검색하세요.
+</div>
+${SONGS.map(s => {
+  const matched = s.vocab.filter(k => knownKanji.has(k));
+  return `
+<div class="grammar-card">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+    <div>
+      <div class="grammar-pattern">${escHtml(s.title)}</div>
+      <div class="grammar-ko">${escHtml(s.artist)}</div>
+    </div>
+    <span class="badge ${s.level.includes('완벽') ? 'badge-ok' : 'badge-due'}">${escHtml(s.level)}</span>
+  </div>
+  <div class="grammar-desc">${escHtml(s.why)}</div>
+  ${matched.length ? `<div style="font-size:13px;color:var(--success);margin-bottom:10px">✓ 내가 배운 단어 포함: ${matched.map(escHtml).join('、')}</div>` : ''}
+  <div style="display:flex;align-items:center;gap:10px">
+    <span style="font-size:12px;color:var(--dim)">YouTube 검색어:</span>
+    <code style="background:var(--surface2);padding:4px 10px;border-radius:6px;font-size:13px;cursor:pointer;user-select:all"
+          onclick="navigator.clipboard.writeText(this.dataset.q).then(()=>{const o=this.textContent;this.textContent='✓ 복사됨';setTimeout(()=>this.textContent=o,1500)}).catch(()=>{})"
+          data-q="${escHtml(s.youtube)}">${escHtml(s.youtube)}</code>
+  </div>
+</div>`;
+}).join('')}`;
+}
+
 // ── Settings ──────────────────────────────────────────────────────────────
 function settingsPage(needsSetup) {
   return `
@@ -600,6 +717,7 @@ function bind(r) {
   if (r === '/review')   bindReview();
   if (r === '/kana')     bindKana();
   if (r === '/vocab')    bindVocab();
+  if (r === '/grammar')  bindGrammar();
   if (r === '/lessons')  bindLessons();
   if (r === '/reference') bindRef();
 }
@@ -644,6 +762,15 @@ function bindReview() {
 
   if (fc) fc.addEventListener('click', flip);
   on('r-flip', 'click', flip);
+
+  document.querySelectorAll('.mode-tab').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      S.rMode = btn.dataset.mode;
+      paint('<div class="loading">로딩 중...</div>');
+      paint(await reviewPage());
+      bindReview();
+    });
+  });
 
   on('r-right', 'click', () => answerReview(true));
   on('r-wrong', 'click', () => answerReview(false));
@@ -804,6 +931,16 @@ function bindLessons() {
         paint(`<div class="alert alert-error">로드 실패: ${escHtml(e.message)}</div>`);
       }
     });
+  });
+}
+
+// Grammar quiz button
+function bindGrammar() {
+  on('grammar-quiz-btn', 'click', async () => {
+    S.rMode = 'grammar';
+    paint('<div class="loading">로딩 중...</div>');
+    paint(await reviewPage());
+    bindReview();
   });
 }
 
