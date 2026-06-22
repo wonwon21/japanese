@@ -64,15 +64,9 @@ class GitHub {
   }
 
   async putFile(path, text, sha, msg) {
-    return this._req(`${this._base()}/contents/${path}`, {
-      method: 'PUT',
-      body: JSON.stringify({
-        message: msg || `update ${path}`,
-        content: encodeB64(text),
-        sha,
-        branch: this.branch,
-      }),
-    });
+    const body = { message: msg || `update ${path}`, content: encodeB64(text), branch: this.branch };
+    if (sha) body.sha = sha; // omit sha when creating new file
+    return this._req(`${this._base()}/contents/${path}`, { method: 'PUT', body: JSON.stringify(body) });
   }
 
   async putJSON(path, data, sha, msg) {
@@ -820,6 +814,35 @@ async function answerReview(correct) {
   }
 }
 
+async function saveLessonLog() {
+  const date = todayStr();
+  const path = `lessons/${date}.md`;
+  const correct = S.rResults.filter(Boolean).length;
+  const total   = S.rResults.length;
+  const pct     = total ? Math.round(correct / total * 100) : 0;
+  const time    = new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+
+  const lines = [`\n## ${time} 복습 (${correct}/${total}, ${pct}%)\n`];
+  S.rq.forEach((card, i) => {
+    const mark = S.rResults[i] ? '✓' : '✗';
+    if (card._type === 'vocab') {
+      lines.push(`- ${mark} **${card.kanji || card.kana}**「${card.kana}」${card.meaning_ko}`);
+    } else {
+      lines.push(`- ${mark} **${card.pattern}** — ${card.meaning_ko}`);
+    }
+  });
+
+  try {
+    let sha = null, existing = '';
+    try { const f = await gh.getFile(path); sha = f.sha; existing = f.text; } catch { /* new file */ }
+    const content = (existing.trim() || `# ${date} 레슨 로그`) + '\n' + lines.join('\n') + '\n';
+    await gh.putFile(path, content, sha, `레슨 로그 ${date}`);
+    S.lessonFiles = null; // invalidate cache so lessons page reloads
+  } catch (e) {
+    console.warn('lesson log save failed:', e);
+  }
+}
+
 async function saveReview() {
   const hadVocab   = S.rq.some(c => c._type === 'vocab');
   const hadGrammar = S.rq.some(c => c._type === 'grammar');
@@ -844,6 +867,7 @@ async function saveReview() {
     if (hadVocab)   { S.vocabSha   = results[ri++].content.sha; }
     if (hadGrammar) { S.grammarSha = results[ri++].content.sha; }
 
+    saveLessonLog(); // fire-and-forget; errors logged to console only
     paint(reviewDoneHtml(false));
     bindReview();
   } catch (e) {
