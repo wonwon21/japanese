@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(gh repo list --limit 50)",
+      "PowerShell(git config --global --list)"
+    ]
+  }
+}
