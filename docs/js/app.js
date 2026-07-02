@@ -222,10 +222,26 @@ function escHtml(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
+// ── 오늘의 학습 (2026년 7월 커리큘럼 규칙) ─────────────────────────────────
+// N일: 단어 N마디 + 문법 (2N-1)~2N마디 / 29·30일: 문법 복습 / 31일: 전체복습
+function todayPlan() {
+  const now = new Date();
+  const y = now.getFullYear(), mo = now.getMonth() + 1, d = now.getDate();
+  const dateStr = `${mo}월 ${d}일 (${'일월화수목금토'[now.getDay()]})`;
+  if (y !== 2026 || mo !== 7) return { dateStr, items: null };
+  if (d === 31) return { dateStr, items: [{ label: '전체복습 — 단어 + 문법 총정리', link: null }] };
+  const items = [];
+  items.push({ label: `단어 ${d}마디`, link: d <= 6 ? `/vocab/m${d}` : null, note: d > 6 ? '(사이트 준비 중 — 책으로 학습)' : '' });
+  if (d <= 28) items.push({ label: `문법 ${d * 2 - 1}-${d * 2}마디`, link: '/grammar' });
+  else items.push({ label: '문법 복습', link: '/grammar' });
+  return { dateStr, items };
+}
+
 // ── 홈 ────────────────────────────────────────────────────────────────────
 async function homePage() {
   const madi = await loadVocab();
   const totalWords = madi.reduce((s, m) => s + m.words.length, 0);
+  const plan = todayPlan();
 
   const madiCards = madi.map(m => {
     const best = lsGet(`quiz_best_${m.id}`, null);
@@ -237,12 +253,24 @@ async function homePage() {
 </div>`;
   }).join('');
 
+  const planHtml = plan.items ? `
+<div style="background:var(--surface);border:2px solid var(--accent);border-radius:12px;padding:20px 24px;margin-bottom:24px">
+  <div style="font-weight:700;font-size:16px;margin-bottom:4px">📅 오늘의 학습 — ${plan.dateStr}</div>
+  <div style="color:var(--dim);font-size:12px;margin-bottom:12px">7월 N5→N4 완성 플랜 · <a href="#/curriculum" style="color:var(--accent)">전체 달력 보기</a></div>
+  ${plan.items.map(it => `
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:15px">
+      <span>✅</span>
+      ${it.link ? `<a href="#${it.link}" style="color:var(--accent);font-weight:600">${escHtml(it.label)} →</a>` : `<span style="font-weight:600">${escHtml(it.label)}</span>`}
+      ${it.note ? `<span style="color:var(--dim);font-size:12px">${escHtml(it.note)}</span>` : ''}
+    </div>`).join('')}
+</div>` : `
+<div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 24px;margin-bottom:24px;color:var(--dim);font-size:14px">
+  📅 ${plan.dateStr} — 7월 커리큘럼 기간이 아니에요. <a href="#/curriculum" style="color:var(--accent)">커리큘럼 보기</a>
+</div>`;
+
   return `
 <h1 class="page-title">🏠 日本語 학습</h1>
-<div class="alert alert-info" style="margin-bottom:24px">
-  누구나 바로 이용할 수 있는 일본어 학습 사이트입니다. 로그인·설정 필요 없음.<br>
-  퀴즈 기록은 <strong>내 브라우저에만</strong> 저장되고, 다른 사람에게 영향을 주지 않아요.
-</div>
+${planHtml}
 
 <div class="stats-grid">
   <div class="stat-card">
@@ -571,19 +599,18 @@ ${g.items.map((c, i) => `
 
 // ── 커리큘럼 ──────────────────────────────────────────────────────────────
 function curriculumPage() {
+  const plan = todayPlan();
   return `
 <h1 class="page-title">📋 커리큘럼</h1>
 <p style="color:var(--dim);margin-bottom:16px">
-  2026년 7월 학습 계획표입니다.
-  <a href="curriculum.pdf" target="_blank" style="color:var(--accent)">새 창에서 열기 ↗</a> ·
-  <a href="curriculum.pdf" download style="color:var(--accent)">다운로드 ⬇</a>
+  2026년 7월 학습 계획표 · 오늘은 <strong style="color:var(--accent)">${escHtml(plan.dateStr)}</strong>${plan.items ? ` — ${plan.items.map(i => escHtml(i.label)).join(' + ')}` : ''}
+  · <a href="curriculum.pdf" download style="color:var(--accent)">PDF 다운로드 ⬇</a>
 </p>
-<div style="background:var(--surface);border:1px solid var(--surface2);border-radius:12px;overflow:hidden">
-  <iframe src="curriculum.pdf" style="width:100%;height:80vh;border:none;display:block"
-          title="일본어 학습 커리큘럼 PDF"></iframe>
+<div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:16px">
+  <img src="curriculum/page1.png" alt="7월 학습 달력" style="width:100%;display:block">
 </div>
-<div class="alert alert-info" style="margin-top:14px">
-  모바일에서 PDF가 안 보이면 위의 '새 창에서 열기'를 눌러 주세요.
+<div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+  <img src="curriculum/page2.png" alt="7월 학습 체크리스트" style="width:100%;display:block">
 </div>`;
 }
 
