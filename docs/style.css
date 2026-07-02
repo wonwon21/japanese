@@ -1,14 +1,14 @@
 :root {
-  --bg:       #0f1117;
-  --surface:  #1a1d27;
-  --surface2: #242736;
-  --border:   #2e3248;
-  --text:     #e8eaf0;
-  --dim:      #8b8fa8;
-  --accent:   #7c6ff0;
-  --success:  #4caf88;
-  --danger:   #e05252;
-  --warning:  #e0a852;
+  --bg:       #f7f8fa;
+  --surface:  #ffffff;
+  --surface2: #eef0f4;
+  --border:   #dcdfe6;
+  --text:     #1c1e26;
+  --dim:      #6b7080;
+  --accent:   #5b4fd6;
+  --success:  #2e8f66;
+  --danger:   #cc3d3d;
+  --warning:  #a06f1f;
   --nav-w:    220px;
 }
 
@@ -102,9 +102,9 @@ a { color: inherit; text-decoration: none; }
   margin-bottom: 16px;
   line-height: 1.5;
 }
-.alert-success { background: #112a1e; border: 1px solid var(--success); color: var(--success); }
-.alert-error   { background: #2a1111; border: 1px solid var(--danger);  color: var(--danger);  }
-.alert-info    { background: #131a35; border: 1px solid var(--accent);  color: var(--accent);  }
+.alert-success { background: #e8f6ef; border: 1px solid var(--success); color: var(--success); }
+.alert-error   { background: #fdecec; border: 1px solid var(--danger);  color: var(--danger);  }
+.alert-info    { background: #edebfb; border: 1px solid var(--accent);  color: var(--accent);  }
 
 .btn {
   padding: 12px 20px;
@@ -131,8 +131,8 @@ a { color: inherit; text-decoration: none; }
   font-weight: 700;
   letter-spacing: 0.3px;
 }
-.badge-due { background: #1e1535; color: var(--accent);  }
-.badge-ok  { background: #112a1e; color: var(--success); }
+.badge-due { background: #edebfb; color: var(--accent);  }
+.badge-ok  { background: #e8f6ef; color: var(--success); }
 
 /* ── DASHBOARD ── */
 .stats-grid {
@@ -196,7 +196,7 @@ a { color: inherit; text-decoration: none; }
 .card-reading { font-size: 20px; color: var(--dim); margin-top: 6px; }
 .card-meaning { font-size: 26px; color: var(--accent); font-weight: 600; }
 .card-example { font-size: 13px; color: var(--dim); margin-top: 14px; line-height: 1.7; }
-.card-tap     { font-size: 11px; color: var(--border); margin-top: 20px; }
+.card-tap     { font-size: 11px; color: var(--dim); opacity: 0.6; margin-top: 20px; }
 
 .mode-tabs {
   display: flex;

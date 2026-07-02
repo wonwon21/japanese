@@ -44,7 +44,19 @@ function lsSet(key, val) {
   try { localStorage.setItem(key, JSON.stringify(val)); } catch { /* private mode 등 */ }
 }
 
-// ── 가나 데이터 (가타카나) ─────────────────────────────────────────────────
+// ── 가나 데이터 ───────────────────────────────────────────────────────────
+const HIRAGANA = [
+  {c:'あ',r:'a'},{c:'い',r:'i'},{c:'う',r:'u'},{c:'え',r:'e'},{c:'お',r:'o'},
+  {c:'か',r:'ka'},{c:'き',r:'ki'},{c:'く',r:'ku'},{c:'け',r:'ke'},{c:'こ',r:'ko'},
+  {c:'さ',r:'sa'},{c:'し',r:'shi'},{c:'す',r:'su'},{c:'せ',r:'se'},{c:'そ',r:'so'},
+  {c:'た',r:'ta'},{c:'ち',r:'chi'},{c:'つ',r:'tsu'},{c:'て',r:'te'},{c:'と',r:'to'},
+  {c:'な',r:'na'},{c:'に',r:'ni'},{c:'ぬ',r:'nu'},{c:'ね',r:'ne'},{c:'の',r:'no'},
+  {c:'は',r:'ha'},{c:'ひ',r:'hi'},{c:'ふ',r:'fu'},{c:'へ',r:'he'},{c:'ほ',r:'ho'},
+  {c:'ま',r:'ma'},{c:'み',r:'mi'},{c:'む',r:'mu'},{c:'め',r:'me'},{c:'も',r:'mo'},
+  {c:'や',r:'ya'},{c:'ゆ',r:'yu'},{c:'よ',r:'yo'},
+  {c:'ら',r:'ra'},{c:'り',r:'ri'},{c:'る',r:'ru'},{c:'れ',r:'re'},{c:'ろ',r:'ro'},
+  {c:'わ',r:'wa'},{c:'を',r:'wo'},{c:'ん',r:'n'},
+];
 const KATAKANA = [
   {c:'ア',r:'a'},{c:'イ',r:'i'},{c:'ウ',r:'u'},{c:'エ',r:'e'},{c:'オ',r:'o'},
   {c:'カ',r:'ka'},{c:'キ',r:'ki'},{c:'ク',r:'ku'},{c:'ケ',r:'ke'},{c:'コ',r:'ko'},
@@ -57,6 +69,109 @@ const KATAKANA = [
   {c:'ラ',r:'ra'},{c:'リ',r:'ri'},{c:'ル',r:'ru'},{c:'レ',r:'re'},{c:'ロ',r:'ro'},
   {c:'ワ',r:'wa'},{c:'ヲ',r:'wo'},{c:'ン',r:'n'},
 ];
+const KANA_SETS = {
+  hira: { name: 'ひらがな', data: HIRAGANA, lsKey: 'kana_weak_hira' },
+  kata: { name: 'カタカナ', data: KATAKANA, lsKey: 'kana_weak_kata' },
+};
+
+// 각 글자로 시작하는 쉬운 단어 2개 (퀴즈 정답 카드에 표시)
+const KANA_WORDS = {
+  // ひらがな
+  'あ': [{w:'雨(あめ)',ko:'비'},{w:'朝(あさ)',ko:'아침'}],
+  'い': [{w:'犬(いぬ)',ko:'개'},{w:'家(いえ)',ko:'집'}],
+  'う': [{w:'海(うみ)',ko:'바다'},{w:'歌(うた)',ko:'노래'}],
+  'え': [{w:'駅(えき)',ko:'역'},{w:'映画(えいが)',ko:'영화'}],
+  'お': [{w:'お金(おかね)',ko:'돈'},{w:'お茶(おちゃ)',ko:'차'}],
+  'か': [{w:'傘(かさ)',ko:'우산'},{w:'かばん',ko:'가방'}],
+  'き': [{w:'昨日(きのう)',ko:'어제'},{w:'切符(きっぷ)',ko:'표'}],
+  'く': [{w:'靴(くつ)',ko:'신발'},{w:'雲(くも)',ko:'구름'}],
+  'け': [{w:'今朝(けさ)',ko:'오늘 아침'},{w:'消しゴム(けしゴム)',ko:'지우개'}],
+  'こ': [{w:'子供(こども)',ko:'아이'},{w:'言葉(ことば)',ko:'말'}],
+  'さ': [{w:'魚(さかな)',ko:'생선'},{w:'桜(さくら)',ko:'벚꽃'}],
+  'し': [{w:'新聞(しんぶん)',ko:'신문'},{w:'仕事(しごと)',ko:'일'}],
+  'す': [{w:'寿司(すし)',ko:'초밥'},{w:'すいか',ko:'수박'}],
+  'せ': [{w:'先生(せんせい)',ko:'선생님'},{w:'世界(せかい)',ko:'세계'}],
+  'そ': [{w:'空(そら)',ko:'하늘'},{w:'そば',ko:'메밀국수'}],
+  'た': [{w:'卵(たまご)',ko:'달걀'},{w:'食べ物(たべもの)',ko:'음식'}],
+  'ち': [{w:'地図(ちず)',ko:'지도'},{w:'父(ちち)',ko:'아버지'}],
+  'つ': [{w:'机(つくえ)',ko:'책상'},{w:'月(つき)',ko:'달'}],
+  'て': [{w:'手(て)',ko:'손'},{w:'手紙(てがみ)',ko:'편지'}],
+  'と': [{w:'時計(とけい)',ko:'시계'},{w:'友達(ともだち)',ko:'친구'}],
+  'な': [{w:'夏(なつ)',ko:'여름'},{w:'名前(なまえ)',ko:'이름'}],
+  'に': [{w:'肉(にく)',ko:'고기'},{w:'庭(にわ)',ko:'마당'}],
+  'ぬ': [{w:'布(ぬの)',ko:'천'},{w:'ぬいぐるみ',ko:'봉제인형'}],
+  'ね': [{w:'猫(ねこ)',ko:'고양이'},{w:'値段(ねだん)',ko:'가격'}],
+  'の': [{w:'飲み物(のみもの)',ko:'음료'},{w:'のり',ko:'김'}],
+  'は': [{w:'花(はな)',ko:'꽃'},{w:'箸(はし)',ko:'젓가락'}],
+  'ひ': [{w:'人(ひと)',ko:'사람'},{w:'昼(ひる)',ko:'낮'}],
+  'ふ': [{w:'冬(ふゆ)',ko:'겨울'},{w:'船(ふね)',ko:'배'}],
+  'へ': [{w:'部屋(へや)',ko:'방'},{w:'下手(へた)',ko:'서투름'}],
+  'ほ': [{w:'本(ほん)',ko:'책'},{w:'星(ほし)',ko:'별'}],
+  'ま': [{w:'窓(まど)',ko:'창문'},{w:'町(まち)',ko:'동네'}],
+  'み': [{w:'水(みず)',ko:'물'},{w:'耳(みみ)',ko:'귀'}],
+  'む': [{w:'虫(むし)',ko:'벌레'},{w:'村(むら)',ko:'마을'}],
+  'め': [{w:'目(め)',ko:'눈'},{w:'眼鏡(めがね)',ko:'안경'}],
+  'も': [{w:'森(もり)',ko:'숲'},{w:'桃(もも)',ko:'복숭아'}],
+  'や': [{w:'山(やま)',ko:'산'},{w:'野菜(やさい)',ko:'채소'}],
+  'ゆ': [{w:'雪(ゆき)',ko:'눈(雪)'},{w:'夢(ゆめ)',ko:'꿈'}],
+  'よ': [{w:'夜(よる)',ko:'밤'},{w:'洋服(ようふく)',ko:'옷'}],
+  'ら': [{w:'来年(らいねん)',ko:'내년'},{w:'楽(らく)',ko:'편함'}],
+  'り': [{w:'りんご',ko:'사과'},{w:'旅行(りょこう)',ko:'여행'}],
+  'る': [{w:'留守(るす)',ko:'부재중'},{w:'留守番(るすばん)',ko:'집 보기'}],
+  'れ': [{w:'歴史(れきし)',ko:'역사'},{w:'冷蔵庫(れいぞうこ)',ko:'냉장고'}],
+  'ろ': [{w:'廊下(ろうか)',ko:'복도'},{w:'六(ろく)',ko:'6, 여섯'}],
+  'わ': [{w:'私(わたし)',ko:'나, 저'},{w:'忘れ物(わすれもの)',ko:'분실물'}],
+  'を': [{w:'本を読む(ほんをよむ)',ko:'책을 읽다 — 조사로만 사용'}],
+  'ん': [{w:'本(ほん)',ko:'책'},{w:'みかん',ko:'귤'}],
+  // カタカナ
+  'ア': [{w:'アイス',ko:'아이스크림'},{w:'アニメ',ko:'애니메이션'}],
+  'イ': [{w:'インターネット',ko:'인터넷'},{w:'イタリア',ko:'이탈리아'}],
+  'ウ': [{w:'ウイルス',ko:'바이러스'},{w:'ウール',ko:'울(양모)'}],
+  'エ': [{w:'エアコン',ko:'에어컨'},{w:'エレベーター',ko:'엘리베이터'}],
+  'オ': [{w:'オレンジ',ko:'오렌지'},{w:'オートバイ',ko:'오토바이'}],
+  'カ': [{w:'カメラ',ko:'카메라'},{w:'カレー',ko:'카레'}],
+  'キ': [{w:'キムチ',ko:'김치'},{w:'キッチン',ko:'키친'}],
+  'ク': [{w:'クラス',ko:'클래스'},{w:'クリスマス',ko:'크리스마스'}],
+  'ケ': [{w:'ケーキ',ko:'케이크'},{w:'ケータイ',ko:'휴대폰'}],
+  'コ': [{w:'コーヒー',ko:'커피'},{w:'コンビニ',ko:'편의점'}],
+  'サ': [{w:'サッカー',ko:'축구'},{w:'サラダ',ko:'샐러드'}],
+  'シ': [{w:'シャワー',ko:'샤워'},{w:'シャツ',ko:'셔츠'}],
+  'ス': [{w:'スーパー',ko:'슈퍼'},{w:'スポーツ',ko:'스포츠'}],
+  'セ': [{w:'セーター',ko:'스웨터'},{w:'セール',ko:'세일'}],
+  'ソ': [{w:'ソファ',ko:'소파'},{w:'ソース',ko:'소스'}],
+  'タ': [{w:'タクシー',ko:'택시'},{w:'タオル',ko:'수건'}],
+  'チ': [{w:'チーズ',ko:'치즈'},{w:'チケット',ko:'티켓'}],
+  'ツ': [{w:'ツアー',ko:'투어'},{w:'ツナ',ko:'참치'}],
+  'テ': [{w:'テレビ',ko:'텔레비전'},{w:'テスト',ko:'테스트'}],
+  'ト': [{w:'トイレ',ko:'화장실'},{w:'トマト',ko:'토마토'}],
+  'ナ': [{w:'ナイフ',ko:'나이프'},{w:'ナンバー',ko:'넘버'}],
+  'ニ': [{w:'ニュース',ko:'뉴스'},{w:'ニックネーム',ko:'닉네임'}],
+  'ヌ': [{w:'ヌードル',ko:'누들'},{w:'ヌガー',ko:'누가(과자)'}],
+  'ネ': [{w:'ネクタイ',ko:'넥타이'},{w:'ネット',ko:'넷, 인터넷'}],
+  'ノ': [{w:'ノート',ko:'노트'},{w:'ノック',ko:'노크'}],
+  'ハ': [{w:'ハンバーガー',ko:'햄버거'},{w:'ハート',ko:'하트'}],
+  'ヒ': [{w:'ヒーター',ko:'히터'},{w:'ヒント',ko:'힌트'}],
+  'フ': [{w:'フォーク',ko:'포크'},{w:'フランス',ko:'프랑스'}],
+  'ヘ': [{w:'ヘリコプター',ko:'헬리콥터'},{w:'ヘアスタイル',ko:'헤어스타일'}],
+  'ホ': [{w:'ホテル',ko:'호텔'},{w:'ホッチキス',ko:'스테이플러'}],
+  'マ': [{w:'マスク',ko:'마스크'},{w:'マンション',ko:'맨션'}],
+  'ミ': [{w:'ミルク',ko:'밀크'},{w:'ミス',ko:'실수'}],
+  'ム': [{w:'ムード',ko:'무드'},{w:'ムービー',ko:'무비'}],
+  'メ': [{w:'メール',ko:'메일'},{w:'メニュー',ko:'메뉴'}],
+  'モ': [{w:'モデル',ko:'모델'},{w:'モニター',ko:'모니터'}],
+  'ヤ': [{w:'ヤクルト',ko:'야쿠르트'},{w:'ヤード',ko:'야드'}],
+  'ユ': [{w:'ユーチューブ',ko:'유튜브'},{w:'ユニフォーム',ko:'유니폼'}],
+  'ヨ': [{w:'ヨーグルト',ko:'요구르트'},{w:'ヨーロッパ',ko:'유럽'}],
+  'ラ': [{w:'ラーメン',ko:'라멘'},{w:'ラジオ',ko:'라디오'}],
+  'リ': [{w:'リモコン',ko:'리모컨'},{w:'リボン',ko:'리본'}],
+  'ル': [{w:'ルール',ko:'룰, 규칙'},{w:'ルビー',ko:'루비'}],
+  'レ': [{w:'レストラン',ko:'레스토랑'},{w:'レモン',ko:'레몬'}],
+  'ロ': [{w:'ロボット',ko:'로봇'},{w:'ロシア',ko:'러시아'}],
+  'ワ': [{w:'ワイン',ko:'와인'},{w:'ワイシャツ',ko:'와이셔츠'}],
+  'ヲ': [{w:'(거의 쓰이지 않음)',ko:'조사 を의 가타카나형'}],
+  'ン': [{w:'パン',ko:'빵'},{w:'ラーメン',ko:'라멘'}],
+};
+const KANA_NO_START = new Set(['ん','ン','を','ヲ']); // 이 글자로 시작하는 단어가 없거나 특수한 경우
 
 // ── Router ────────────────────────────────────────────────────────────────
 function route() {
@@ -75,13 +190,15 @@ async function render() {
   try {
     let html;
     if      (r === '/')             html = await homePage();
-    else if (r === '/kana')         html = kanaStart();
+    else if (r === '/kana')         html = kanaChartPage();
+    else if (r === '/kana-quiz')    html = kanaQuizHome();
+    else if (r.startsWith('/kana-quiz/')) html = kanaStart(r.split('/')[2]);
     else if (r === '/vocab')        html = await vocabPage();
     else if (r.startsWith('/vocab/')) html = await madiPage(r.split('/')[2]);
     else if (r.startsWith('/quiz/'))  html = await quizStart(r.split('/')[2]);
     else if (r === '/grammar')      html = await grammarPage();
     else if (r === '/curriculum')   html = curriculumPage();
-    else if (r === '/music')        html = musicPage();
+    else if (r === '/music')        html = await musicPage();
     else                            html = '<p>페이지를 찾을 수 없습니다.</p>';
     paint(html);
     bind(r);
@@ -137,10 +254,10 @@ async function homePage() {
 
 <div style="color:var(--dim);font-size:13px;margin-bottom:10px">빠른 이동</div>
 <div class="quick-grid">
-  <button class="btn btn-secondary" onclick="go('/kana')">ア 가나 워밍업</button>
+  <button class="btn btn-secondary" onclick="go('/kana')">あ 가나 표</button>
+  <button class="btn btn-secondary" onclick="go('/kana-quiz')">🃏 가나 퀴즈</button>
   <button class="btn btn-secondary" onclick="go('/vocab')">📖 단어장</button>
   <button class="btn btn-secondary" onclick="go('/grammar')">📝 문법 (N5~N3)</button>
-  <button class="btn btn-secondary" onclick="go('/curriculum')">📋 커리큘럼</button>
 </div>`;
 }
 
@@ -196,9 +313,11 @@ function wordTableHtml(words) {
     </tr>
     <tr class="ex-row" data-ex="${i}" style="display:none">
       <td colspan="5" style="background:var(--surface2);padding:14px 18px">
+        ${w.tip ? `<div style="font-size:13px;color:var(--success);margin-bottom:10px">💡 ${escHtml(w.tip)}</div>` : ''}
         ${w.ex.map(e => `
-          <div style="margin-bottom:8px">
+          <div style="margin-bottom:10px">
             <div style="font-size:15px">${escHtml(e.jp)}</div>
+            ${e.rom ? `<div style="color:var(--accent);font-size:12px;font-style:italic">${escHtml(e.rom)}</div>` : ''}
             <div style="color:var(--dim);font-size:13px">${escHtml(e.ko)}</div>
           </div>`).join('')}
       </td>
@@ -243,7 +362,8 @@ function quizCardHtml() {
       <div class="card-word">${escHtml(w.kanji || w.kana)}</div>
       ${w.kanji ? `<div class="card-reading">${escHtml(w.kana)}</div>` : ''}
       <div style="color:var(--accent);font-size:16px;margin-top:4px">${escHtml(w.romaji)}</div>
-      ${w.ex[0] ? `<div class="card-example">${escHtml(w.ex[0].jp)}<br>
+      ${w.tip ? `<div style="font-size:12px;color:var(--success);margin-top:6px">💡 ${escHtml(w.tip)}</div>` : ''}
+      ${w.ex[0] ? `<div class="card-example">${escHtml(w.ex[0].jp)}${w.ex[0].rom ? `<br><span style="color:var(--accent);font-style:italic;font-size:12px">${escHtml(w.ex[0].rom)}</span>` : ''}<br>
         <span style="color:var(--dim)">${escHtml(w.ex[0].ko)}</span></div>` : ''}
     </div>
   </div>
@@ -285,35 +405,111 @@ function quizDoneHtml() {
 }
 
 // ── 가나 워밍업 ───────────────────────────────────────────────────────────
-function kanaStart() {
-  const weakSet = new Set(lsGet('kana_weak', []));
-  const weak = KATAKANA.filter(k => weakSet.has(k.c));
-  const rest = KATAKANA.filter(k => !weakSet.has(k.c)).sort(() => Math.random() - 0.5);
+function kanaChartHtml(data) {
+  // 오십음도 배치: [행 시작 index, 열 위치 목록]
+  const layout = [
+    { start: 0,  cols: [0,1,2,3,4] },   // あ행
+    { start: 5,  cols: [0,1,2,3,4] },   // か행
+    { start: 10, cols: [0,1,2,3,4] },   // さ행
+    { start: 15, cols: [0,1,2,3,4] },   // た행
+    { start: 20, cols: [0,1,2,3,4] },   // な행
+    { start: 25, cols: [0,1,2,3,4] },   // は행
+    { start: 30, cols: [0,1,2,3,4] },   // ま행
+    { start: 35, cols: [0,2,4] },       // や행
+    { start: 38, cols: [0,1,2,3,4] },   // ら행
+    { start: 43, cols: [0,4] },         // わ행 (わ·を)
+    { start: 45, cols: [0] },           // ん
+  ];
+  const rows = layout.map(row => {
+    const cells = Array(5).fill('<td></td>');
+    row.cols.forEach((col, i) => {
+      const k = data[row.start + i];
+      cells[col] = `<td style="text-align:center;padding:8px 4px">
+        <div style="font-size:26px">${k.c}</div>
+        <div style="font-size:11px;color:var(--dim)">${k.r}</div>
+      </td>`;
+    });
+    return `<tr>${cells.join('')}</tr>`;
+  }).join('');
+  return `<table class="vocab-table" style="max-width:420px"><tbody>${rows}</tbody></table>`;
+}
+
+function kanaChartPage() {
+  return `
+<h1 class="page-title">あ 가나 표</h1>
+<p style="color:var(--dim);margin-bottom:20px">히라가나·가타카나 오십음도입니다. 외웠다 싶으면 <a href="#/kana-quiz" style="color:var(--accent)">가나 퀴즈</a>로 확인해 보세요.</p>
+
+<div style="display:flex;gap:40px;flex-wrap:wrap">
+  <div>
+    <h2 style="font-size:18px;margin-bottom:10px">ひらがな 히라가나</h2>
+    ${kanaChartHtml(HIRAGANA)}
+  </div>
+  <div>
+    <h2 style="font-size:18px;margin-bottom:10px">カタカナ 가타카나</h2>
+    ${kanaChartHtml(KATAKANA)}
+  </div>
+</div>`;
+}
+
+function kanaQuizHome() {
+  const weakH = lsGet('kana_weak_hira', []).length;
+  const weakK = lsGet('kana_weak_kata', []).length;
+  return `
+<h1 class="page-title">🃏 가나 퀴즈</h1>
+<p style="color:var(--dim);margin-bottom:24px">글자를 보고 발음을 맞혀 보세요. 정답 카드에는 그 글자로 시작하는 쉬운 단어 2개가 함께 나와요.<br>헷갈린 글자는 다음 퀴즈에서 먼저 나옵니다.</p>
+
+<div class="stats-grid" style="max-width:560px">
+  <div class="stat-card" style="cursor:pointer" onclick="go('/kana-quiz/hira')">
+    <div class="stat-num" style="font-size:40px">あ</div>
+    <div class="stat-label" style="font-size:14px;margin-top:10px">히라가나 퀴즈 (46자)</div>
+    ${weakH ? `<div class="stat-label" style="color:var(--danger)">헷갈린 글자 ${weakH}개</div>` : ''}
+  </div>
+  <div class="stat-card" style="cursor:pointer" onclick="go('/kana-quiz/kata')">
+    <div class="stat-num" style="font-size:40px">ア</div>
+    <div class="stat-label" style="font-size:14px;margin-top:10px">가타카나 퀴즈 (46자)</div>
+    ${weakK ? `<div class="stat-label" style="color:var(--danger)">헷갈린 글자 ${weakK}개</div>` : ''}
+  </div>
+</div>
+<p style="color:var(--dim);font-size:13px;margin-top:8px">가나가 처음이라면 <a href="#/kana" style="color:var(--accent)">가나 표</a>부터 보는 것을 추천!</p>`;
+}
+
+function kanaStart(type) {
+  const set = KANA_SETS[type];
+  if (!set) return '<div class="alert alert-error">잘못된 경로입니다.</div>';
+  S.kanaType = type;
+  const weakSet = new Set(lsGet(set.lsKey, []));
+  const weak = set.data.filter(k => weakSet.has(k.c));
+  const rest = set.data.filter(k => !weakSet.has(k.c)).sort(() => Math.random() - 0.5);
   S.kq = [...weak, ...rest];
   S.ki = 0; S.kFlipped = false;
   return kanaCardHtml();
 }
 
 function kanaCardHtml() {
+  const set = KANA_SETS[S.kanaType];
   if (S.ki >= S.kq.length) {
     return `
-<h1 class="page-title">ア 가나 워밍업</h1>
+<h1 class="page-title">${set.name} 퀴즈</h1>
 <div class="completion">
   <div class="completion-emoji">✨</div>
-  <div class="completion-title">워밍업 완료!</div>
+  <div class="completion-title">퀴즈 완료!</div>
   <div class="completion-sub">${S.kq.length}개 가나 연습했어요.</div>
   <div class="completion-btns">
     <button class="btn btn-secondary" id="k-restart">다시 하기</button>
-    <button class="btn btn-primary"   onclick="go('/')">홈으로</button>
+    <button class="btn btn-secondary" onclick="go('/kana')">가나 표로</button>
+    <button class="btn btn-primary"   onclick="go('/kana-quiz')">퀴즈 선택으로</button>
   </div>
 </div>`;
   }
 
   const k   = S.kq[S.ki];
   const pct = Math.round(S.ki / S.kq.length * 100);
+  const words = KANA_WORDS[k.c] || [];
+  const noStart = KANA_NO_START.has(k.c);
 
   return `
-<h1 class="page-title">ア 가나 워밍업</h1>
+<button class="back-btn" onclick="go('/kana-quiz')">← 퀴즈 선택으로</button>
+<h1 class="page-title">${set.name} 퀴즈</h1>
 <div class="progress-text">${S.ki + 1} / ${S.kq.length}</div>
 <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
 
@@ -325,8 +521,13 @@ function kanaCardHtml() {
       <div class="card-tap">클릭해서 확인</div>
     </div>
     <div class="card-face card-back">
-      <div class="card-word" style="font-size:90px;line-height:1">${k.c}</div>
-      <div class="card-reading" style="font-size:30px;margin-top:12px">${k.r}</div>
+      <div class="card-word" style="font-size:56px;line-height:1">${k.c}</div>
+      <div class="card-reading" style="font-size:26px;margin:8px 0 12px">${k.r}</div>
+      ${words.length ? `
+      <div style="font-size:12px;color:var(--dim);margin-bottom:6px">${noStart ? '이 글자가 들어가는 표현' : '이 글자로 시작하는 단어'}</div>
+      ${words.map(w => `<div style="font-size:15px;line-height:1.6">${escHtml(w.w)} — <span style="color:var(--dim)">${escHtml(w.ko)}</span></div>`).join('')}
+      ${k.c === 'ん' ? '<div style="font-size:11px;color:var(--dim);margin-top:6px">※ ん으로 시작하는 일본어 단어는 없어요 (시리토리 규칙!)</div>' : ''}
+      ` : ''}
     </div>
   </div>
 </div>
@@ -361,6 +562,7 @@ ${g.items.map((c, i) => `
   <div class="grammar-examples">
     ${(c.ex || []).map(ex => `
       <div class="ex-jp">${escHtml(ex.jp)}</div>
+      ${ex.rom ? `<div style="color:var(--accent);font-size:12px;font-style:italic;margin-bottom:2px">${escHtml(ex.rom)}</div>` : ''}
       <div class="ex-ko">${escHtml(ex.ko)}</div>
     `).join('')}
   </div>
@@ -386,32 +588,58 @@ function curriculumPage() {
 }
 
 // ── 음악 추천 ─────────────────────────────────────────────────────────────
+// vocab: 단어장(6마디)에 실제로 있는 단어 중 가사에 등장하는 것
 const SONGS = [
-  { title:'さんぽ', artist:'井上あずみ (となりのトトロ)', level:'N5 완벽', youtube:'さんぽ となりのトトロ',
-    why:'짧은 문장, 반복 구조. 歩こう(걷자)、元気(건강함) 등 기초 어휘. 발음 명확.' },
-  { title:'となりのトトロ', artist:'井上あずみ', level:'N5', youtube:'となりのトトロ 主題歌',
-    why:'毎日、家 등 기초 단어 등장. 반복 가사로 외우기 쉬움.' },
-  { title:'犬のおまわりさん', artist:'童謡', level:'N5 완벽', youtube:'犬のおまわりさん 童謡',
-    why:'名前、泣く 등 N5 어휘. 매우 느리고 발음 명확.' },
-  { title:'アンパンマンのマーチ', artist:'ドリーミング', level:'N5', youtube:'アンパンマンのマーチ 歌詞',
-    why:'何のために生まれて — 何(뭐) 등장. 의미 있는 가사, 발음 쉬움.' },
-  { title:'ちょうちょ', artist:'童謡', level:'N5 완벽', youtube:'ちょうちょ 童謡',
-    why:'가장 짧은 동요 중 하나. 小さい 등 N5 어휘.' },
-  { title:'ぞうさん', artist:'童謡', level:'N5 완벽', youtube:'ぞうさん 童謡',
-    why:'매우 단순한 구조. 誰(누구)、好き(좋아함) 반복.' },
-  { title:'上を向いて歩こう (Sukiyaki)', artist:'坂本九', level:'N4~N5', youtube:'上を向いて歩こう 坂本九',
-    why:'세계적으로 유명. 歩く(걷다) 핵심 동사. 멜로디로 먼저 익숙해지기 좋음.' },
-  { title:'パプリカ', artist:'Foorin', level:'N4~N5', youtube:'パプリカ Foorin 歌詞',
-    why:'현대 어린이 노래. 花が咲く — 花(꽃)、咲く(피다). 발음 정확하고 느림.' },
+  { title:'家族になろうよ', artist:'福山雅治', level:'N4~N5',
+    vocab:['家族','お母さん','お父さん','おじいさん','おばあさん'],
+    why:'가족 호칭이 가사에 총출동하는 결혼식 단골 명곡. 1마디(사람·인간관계) 복습에 최적. 느리고 발음 또렷.' },
+  { title:'未来へ', artist:'Kiroro', level:'N5',
+    vocab:['母','道'],
+    why:'"ほら 見て見なさい これがあなたの歩む道" — 母·道가 반복되는 국민 발라드. 한국에서도 리메이크된 명곡(거위의 꿈 아님, 미래로!).' },
+  { title:'なごり雪', artist:'イルカ', level:'N4',
+    vocab:['駅','君','時計'],
+    why:'"汽車を待つ君の横で" — 역·기차 풍경의 전설적 포크 명곡. 5마디(교통) 단어와 딱.' },
+  { title:'川の流れのように', artist:'美空ひばり', level:'N4',
+    vocab:['道','時代'],
+    why:'일본 가요 역사상 최고 명곡 중 하나. "細く長いこの道" — 인생을 길에 비유. 천천히 또박또박.' },
+  { title:'世界に一つだけの花', artist:'SMAP', level:'N4~N5',
+    vocab:['人','店'],
+    why:'"花屋の店先に並んだ" — 店·人 반복. 2000년대 일본 최대 히트곡, 가사 쉽고 메시지 좋음.' },
+  { title:'贈る言葉', artist:'海援隊', level:'N4',
+    vocab:['言葉'],
+    why:'졸업식 국민 명곡. 言葉(3마디 학교)가 제목이자 후렴. 또박또박한 창법.' },
+  { title:'TRAIN-TRAIN', artist:'THE BLUE HEARTS', level:'N4',
+    vocab:['乗る','走る'],
+    why:'"栄光に向かって走る あの列車に乗って行こう" — 5마디(교통) 동사가 후렴에. 일본 록 최고 명곡.' },
+  { title:'さんぽ', artist:'井上あずみ (となりのトトロ)', level:'N5 완벽',
+    vocab:['道','坂'],
+    why:'"坂道 トンネル 草っぱら" — 道·坂 등장. 짧은 문장, 반복 구조, 발음 명확. 입문 1순위.' },
+  { title:'上を向いて歩こう (Sukiyaki)', artist:'坂本九', level:'N4~N5',
+    vocab:['人'],
+    why:'"一人ぼっちの夜" — 빌보드 1위에 오른 유일한 일본어 곡. 세계적 명곡.' },
+  { title:'ハナミズキ', artist:'一青窈', level:'N4',
+    vocab:['君','人'],
+    why:'"君と好きな人が 百年続きますように" — 君·人·好き 반복. 2000년대 대표 발라드 명곡.' },
 ];
 
-function musicPage() {
+function ytMusicUrl(s) {
+  return 'https://music.youtube.com/search?q=' + encodeURIComponent(s.title + ' ' + s.artist);
+}
+
+async function musicPage() {
+  const madi = await loadVocab();
+  const known = new Set();
+  madi.forEach(m => m.words.forEach(w => { if (w.kanji) known.add(w.kanji); known.add(w.kana); }));
+
   return `
 <h1 class="page-title">🎵 음악 추천</h1>
 <div class="alert alert-info" style="margin-bottom:24px">
-  곡명 아래 검색어를 클릭하면 복사됩니다. YouTube에서 검색해 보세요.
+  단어장(1~6마디)에 있는 단어가 가사에 나오는 명곡 위주로 골랐어요.<br>
+  ▶ 버튼을 누르면 YouTube Music에서 바로 열립니다.
 </div>
-${SONGS.map(s => `
+${SONGS.map(s => {
+  const matched = s.vocab.filter(v => known.has(v));
+  return `
 <div class="grammar-card">
   <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
     <div>
@@ -421,18 +649,16 @@ ${SONGS.map(s => `
     <span class="badge ${s.level.includes('완벽') ? 'badge-ok' : 'badge-due'}">${escHtml(s.level)}</span>
   </div>
   <div class="grammar-desc">${escHtml(s.why)}</div>
-  <div style="display:flex;align-items:center;gap:10px">
-    <span style="font-size:12px;color:var(--dim)">YouTube 검색어:</span>
-    <code style="background:var(--surface2);padding:4px 10px;border-radius:6px;font-size:13px;cursor:pointer;user-select:all"
-          onclick="navigator.clipboard.writeText(this.dataset.q).then(()=>{const o=this.textContent;this.textContent='✓ 복사됨';setTimeout(()=>this.textContent=o,1500)}).catch(()=>{})"
-          data-q="${escHtml(s.youtube)}">${escHtml(s.youtube)}</code>
-  </div>
-</div>`).join('')}`;
+  ${matched.length ? `<div style="font-size:13px;color:var(--success);margin-bottom:10px">✓ 단어장에 있는 단어: ${matched.map(escHtml).join('、')}</div>` : ''}
+  <a class="btn btn-primary" style="text-decoration:none;display:inline-block"
+     href="${ytMusicUrl(s)}" target="_blank" rel="noopener">▶ YouTube Music에서 듣기</a>
+</div>`;
+}).join('')}`;
 }
 
 // ── Event binding ─────────────────────────────────────────────────────────
 function bind(r) {
-  if (r === '/kana')                 bindKana();
+  if (r.startsWith('/kana-quiz/'))   bindKana();
   if (r === '/vocab')                bindVocabList();
   if (r.startsWith('/vocab/'))       bindMadi();
   if (r.startsWith('/quiz/'))        bindQuiz();
@@ -530,9 +756,10 @@ function bindKana() {
 
   const answer = (correct) => {
     const k = S.kq[S.ki];
-    const weak = new Set(lsGet('kana_weak', []));
+    const lsKey = KANA_SETS[S.kanaType].lsKey;
+    const weak = new Set(lsGet(lsKey, []));
     if (correct) weak.delete(k.c); else weak.add(k.c);
-    lsSet('kana_weak', [...weak]);
+    lsSet(lsKey, [...weak]);
     S.ki++;
     S.kFlipped = false;
     paint(kanaCardHtml());
@@ -542,7 +769,7 @@ function bindKana() {
   on('k-wrong', 'click', () => answer(false));
 
   on('k-restart', 'click', () => {
-    paint(kanaStart());
+    paint(kanaStart(S.kanaType));
     bindKana();
   });
 }
