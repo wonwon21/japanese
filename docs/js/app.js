@@ -197,6 +197,7 @@ async function render() {
     else if (r.startsWith('/vocab/')) html = await madiPage(r.split('/')[2]);
     else if (r.startsWith('/quiz/'))  html = await quizStart(r.split('/')[2]);
     else if (r === '/grammar')      html = await grammarPage();
+    else if (r === '/sound')        html = await soundPage();
     else if (r === '/curriculum')   html = curriculumPage();
     else if (r === '/music')        html = await musicPage();
     else                            html = '<p>페이지를 찾을 수 없습니다.</p>';
@@ -594,6 +595,33 @@ ${g.items.map((c, i) => `
       <div class="ex-ko">${escHtml(ex.ko)}</div>
     `).join('')}
   </div>
+</div>`).join('')}`;
+}
+
+// ── 발음 법칙 (한↔일 음운 대응) ────────────────────────────────────────────
+async function soundPage() {
+  if (!S.soundRules) S.soundRules = await fetchJSON('data/sound_rules.json');
+  const d = S.soundRules;
+  return `
+<h1 class="page-title">🔁 ${escHtml(d.title)}</h1>
+<div class="alert alert-info" style="margin-bottom:24px">${escHtml(d.intro)}</div>
+${d.sections.map(sec => `
+<div class="grammar-card">
+  <div class="grammar-pattern" style="font-size:17px">${escHtml(sec.title)}</div>
+  <div class="grammar-desc">${escHtml(sec.desc)}</div>
+  <table class="vocab-table" style="font-size:14px">
+    <thead><tr><th>한국어</th><th>한자</th><th>일본어</th><th>발음</th><th>포인트</th></tr></thead>
+    <tbody>
+      ${sec.rows.map(r => `
+      <tr>
+        <td style="font-weight:600">${escHtml(r.kr)}</td>
+        <td class="kanji-cell" style="font-size:15px">${escHtml(r.jp)}</td>
+        <td class="kana-cell">${escHtml(r.kana)}</td>
+        <td style="color:var(--accent);font-style:italic">${escHtml(r.rom)}</td>
+        <td style="color:var(--dim);font-size:12px">${escHtml(r.note || '')}</td>
+      </tr>`).join('')}
+    </tbody>
+  </table>
 </div>`).join('')}`;
 }
 
