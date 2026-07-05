@@ -6,6 +6,8 @@
 const VOCAB_FILES = [
   'data/vocab_m1.json', 'data/vocab_m2.json', 'data/vocab_m3.json',
   'data/vocab_m4.json', 'data/vocab_m5.json', 'data/vocab_m6.json',
+  'data/vocab_m7.json', 'data/vocab_m8.json', 'data/vocab_m9.json',
+  'data/vocab_m10.json', 'data/vocab_m11.json', 'data/vocab_m12.json',
 ];
 const GRAMMAR_FILES = { n5: 'data/grammar_n5.json', n4: 'data/grammar_n4.json', n3: 'data/grammar_n3.json' };
 
@@ -232,7 +234,7 @@ function todayPlan() {
   if (y !== 2026 || mo !== 7) return { dateStr, items: null };
   if (d === 31) return { dateStr, items: [{ label: '전체복습 — 단어 + 문법 총정리', link: null }] };
   const items = [];
-  items.push({ label: `단어 ${d}마디`, link: d <= 6 ? `/vocab/m${d}` : null, note: d > 6 ? '(사이트 준비 중 — 책으로 학습)' : '' });
+  items.push({ label: `단어 ${d}마디`, link: d <= 12 ? `/vocab/m${d}` : null, note: d > 12 ? '(사이트 준비 중 — 책으로 학습)' : '' });
   if (d <= 28) items.push({ label: `문법 ${d * 2 - 1}-${d * 2}마디`, link: '/grammar' });
   else items.push({ label: '문법 복습', link: '/grammar' });
   return { dateStr, items };

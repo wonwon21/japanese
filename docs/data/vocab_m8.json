@@ -1,0 +1,31 @@
+{
+  "id": "m8",
+  "title": "8마디 — 일상생활",
+  "words": [
+    {"kanji":"生活","kana":"せいかつ","romaji":"seikatsu","ko":"생활","tip":"한자어 '생활' — せいかつ≈생활 (받침 ㅇ→장음, ㄹ→つ)","ex":[{"jp":"日本の生活に慣れましたか。","rom":"Nihon no seikatsu ni naremashita ka.","ko":"일본 생활에 익숙해졌어요?"},{"jp":"新しい生活が始まりました。","rom":"Atarashii seikatsu ga hajimarimashita.","ko":"새 생활이 시작되었어요."}]},
+    {"kanji":"起きる","kana":"おきる","romaji":"okiru","ko":"일어나다","ex":[{"jp":"毎朝6時に起きます。","rom":"Maiasa rokuji ni okimasu.","ko":"매일 아침 6시에 일어나요."},{"jp":"今日は早く起きました。","rom":"Kyō wa hayaku okimashita.","ko":"오늘은 일찍 일어났어요."}]},
+    {"kanji":"寝る","kana":"ねる","romaji":"neru","ko":"자다","tip":"起きる(일어나다)⟷寝る(자다) — 세트로 외우기","ex":[{"jp":"昨日は11時に寝ました。","rom":"Kinō wa jūichiji ni nemashita.","ko":"어제는 11시에 잤어요."},{"jp":"早く寝たほうがいいですよ。","rom":"Hayaku neta hō ga ii desu yo.","ko":"일찍 자는 게 좋아요."}]},
+    {"kanji":"寝坊","kana":"ねぼう","romaji":"nebō","ko":"늦잠","ex":[{"jp":"寝坊して遅刻しました。","rom":"Nebō shite chikoku shimashita.","ko":"늦잠 자서 지각했어요."},{"jp":"日曜日は寝坊してもいいです。","rom":"Nichiyōbi wa nebō shite mo ii desu.","ko":"일요일은 늦잠 자도 돼요."}]},
+    {"kanji":"夢","kana":"ゆめ","romaji":"yume","ko":"꿈","tip":"자면서 꾸는 꿈도, 장래의 꿈도 모두 ゆめ — 한국어와 같아요","ex":[{"jp":"昨日、変な夢を見ました。","rom":"Kinō, hen na yume o mimashita.","ko":"어제 이상한 꿈을 꿨어요."},{"jp":"私の夢は先生になることです。","rom":"Watashi no yume wa sensei ni naru koto desu.","ko":"제 꿈은 선생님이 되는 거예요."}]},
+    {"kanji":"急ぐ","kana":"いそぐ","romaji":"isogu","ko":"서두르다","ex":[{"jp":"時間がないので急ぎましょう。","rom":"Jikan ga nai node isogimashō.","ko":"시간이 없으니 서두릅시다."},{"jp":"急がなくてもいいですよ。","rom":"Isoganakute mo ii desu yo.","ko":"서두르지 않아도 돼요."}]},
+    {"kanji":"朝ご飯","kana":"あさごはん","romaji":"asagohan","ko":"아침밥, 아침 식사","tip":"朝(아침)+ご飯(밥) — 조어법이 한국어와 똑같아요","ex":[{"jp":"朝ご飯を食べましたか。","rom":"Asagohan o tabemashita ka.","ko":"아침밥을 먹었어요?"},{"jp":"朝ご飯はパンとコーヒーです。","rom":"Asagohan wa pan to kōhī desu.","ko":"아침밥은 빵과 커피예요."}]},
+    {"kanji":"昼ご飯","kana":"ひるごはん","romaji":"hirugohan","ko":"점심밥, 점심 식사","ex":[{"jp":"昼ご飯は何を食べましょうか。","rom":"Hirugohan wa nani o tabemashō ka.","ko":"점심밥은 뭘 먹을까요?"},{"jp":"友達と昼ご飯を食べました。","rom":"Tomodachi to hirugohan o tabemashita.","ko":"친구와 점심을 먹었어요."}]},
+    {"kanji":"晩ご飯","kana":"ばんごはん","romaji":"bangohan","ko":"저녁밥, 저녁 식사","ex":[{"jp":"晩ご飯はカレーです。","rom":"Bangohan wa karē desu.","ko":"저녁밥은 카레예요."},{"jp":"晩ご飯を作っています。","rom":"Bangohan o tsukutte imasu.","ko":"저녁밥을 만들고 있어요."}]},
+    {"kanji":"夕飯","kana":"ゆうはん","romaji":"yūhan","ko":"저녁밥, 저녁 식사","ex":[{"jp":"夕飯はもう食べましたか。","rom":"Yūhan wa mō tabemashita ka.","ko":"저녁은 벌써 먹었어요?"},{"jp":"今日の夕飯は外で食べます。","rom":"Kyō no yūhan wa soto de tabemasu.","ko":"오늘 저녁은 밖에서 먹어요."}]},
+    {"kanji":"食事","kana":"しょくじ","romaji":"shokuji","ko":"식사","tip":"한자어 '식사' — しょくじ≈식사 (받침 ㄱ→く)","ex":[{"jp":"一緒に食事をしませんか。","rom":"Issho ni shokuji o shimasen ka.","ko":"같이 식사하지 않을래요?"},{"jp":"食事の前に手を洗いましょう。","rom":"Shokuji no mae ni te o araimashō.","ko":"식사 전에 손을 씻읍시다."}]},
+    {"kanji":"食べる","kana":"たべる","romaji":"taberu","ko":"먹다","ex":[{"jp":"何を食べたいですか。","rom":"Nani o tabetai desu ka.","ko":"뭘 먹고 싶어요?"},{"jp":"寿司を食べたことがありますか。","rom":"Sushi o tabeta koto ga arimasu ka.","ko":"초밥을 먹어 본 적이 있어요?"}]},
+    {"kanji":"飲む","kana":"のむ","romaji":"nomu","ko":"마시다","tip":"약도 일본어에선 '마신다'(薬を飲む) — 한국어와 갈라지는 지점","ex":[{"jp":"毎朝コーヒーを飲みます。","rom":"Maiasa kōhī o nomimasu.","ko":"매일 아침 커피를 마셔요."},{"jp":"水をたくさん飲んでください。","rom":"Mizu o takusan nonde kudasai.","ko":"물을 많이 마시세요."}]},
+    {"kanji":"","kana":"ください","romaji":"kudasai","ko":"주세요, 주십시오","tip":"여행 필수 표현 1위! これをください(이거 주세요)","ex":[{"jp":"これをください。","rom":"Kore o kudasai.","ko":"이거 주세요."},{"jp":"水をください。","rom":"Mizu o kudasai.","ko":"물 주세요."}]},
+    {"kanji":"新聞","kana":"しんぶん","romaji":"shinbun","ko":"신문","tip":"한자어 '신문' — しんぶん≈신문 (받침 ㄴ→ん 두 번)","ex":[{"jp":"父は毎朝新聞を読みます。","rom":"Chichi wa maiasa shinbun o yomimasu.","ko":"아버지는 매일 아침 신문을 읽어요."},{"jp":"新聞にその記事が出ていました。","rom":"Shinbun ni sono kiji ga dete imashita.","ko":"신문에 그 기사가 나와 있었어요."}]},
+    {"kanji":"雑誌","kana":"ざっし","romaji":"zasshi","ko":"잡지","tip":"한자어 '잡지' — ざっし≈잡지 (받침 ㅂ→っ)","ex":[{"jp":"ファッション雑誌を買いました。","rom":"Fasshon zasshi o kaimashita.","ko":"패션 잡지를 샀어요."},{"jp":"雑誌を読みながら待ちました。","rom":"Zasshi o yominagara machimashita.","ko":"잡지를 읽으면서 기다렸어요."}]},
+    {"kanji":"買う","kana":"かう","romaji":"kau","ko":"사다","ex":[{"jp":"新しい靴を買いました。","rom":"Atarashii kutsu o kaimashita.","ko":"새 신발을 샀어요."},{"jp":"何を買いたいですか。","rom":"Nani o kaitai desu ka.","ko":"뭘 사고 싶어요?"}]},
+    {"kanji":"買い物","kana":"かいもの","romaji":"kaimono","ko":"장보기, 쇼핑","tip":"買い(사기)+物(물건) = 물건 사기 → 쇼핑","ex":[{"jp":"スーパーへ買い物に行きます。","rom":"Sūpā e kaimono ni ikimasu.","ko":"슈퍼에 장 보러 가요."},{"jp":"週末は買い物を楽しみます。","rom":"Shūmatsu wa kaimono o tanoshimimasu.","ko":"주말에는 쇼핑을 즐겨요."}]},
+    {"kanji":"品物","kana":"しなもの","romaji":"shinamono","ko":"물품, 물건","ex":[{"jp":"この店は品物が多いです。","rom":"Kono mise wa shinamono ga ōi desu.","ko":"이 가게는 물건이 많아요."},{"jp":"いい品物を安く買いました。","rom":"Ii shinamono o yasuku kaimashita.","ko":"좋은 물건을 싸게 샀어요."}]},
+    {"kanji":"袋","kana":"ふくろ","romaji":"fukuro","ko":"봉지","ex":[{"jp":"袋に入れてください。","rom":"Fukuro ni irete kudasai.","ko":"봉지에 넣어 주세요."},{"jp":"袋は要りません。","rom":"Fukuro wa irimasen.","ko":"봉지는 필요 없어요."}]},
+    {"kanji":"選ぶ","kana":"えらぶ","romaji":"erabu","ko":"고르다, 선택하다","ex":[{"jp":"好きなものを選んでください。","rom":"Suki na mono o erande kudasai.","ko":"좋아하는 것을 고르세요."},{"jp":"プレゼントを選ぶのは難しいです。","rom":"Purezento o erabu no wa muzukashii desu.","ko":"선물을 고르는 것은 어려워요."}]},
+    {"kanji":"値段","kana":"ねだん","romaji":"nedan","ko":"값, 가격","ex":[{"jp":"値段はいくらですか。","rom":"Nedan wa ikura desu ka.","ko":"가격은 얼마예요?"},{"jp":"値段が高すぎます。","rom":"Nedan ga takasugimasu.","ko":"가격이 너무 비싸요."}]},
+    {"kanji":"払う","kana":"はらう","romaji":"harau","ko":"지불하다, 내다","ex":[{"jp":"カードで払ってもいいですか。","rom":"Kādo de haratte mo ii desu ka.","ko":"카드로 내도 돼요?"},{"jp":"私が払います。","rom":"Watashi ga haraimasu.","ko":"제가 낼게요."}]},
+    {"kanji":"お釣り","kana":"おつり","romaji":"otsuri","ko":"거스름돈","tip":"편의점·식당에서 매일 듣는 말 — おつりです(거스름돈입니다)","ex":[{"jp":"お釣りをどうぞ。","rom":"Otsuri o dōzo.","ko":"거스름돈 여기요."},{"jp":"お釣りが間違っています。","rom":"Otsuri ga machigatte imasu.","ko":"거스름돈이 잘못됐어요."}]},
+    {"kanji":"箱","kana":"はこ","romaji":"hako","ko":"상자","tip":"ごみ箱(쓰레기통)의 箱! 상자 하코","ex":[{"jp":"箱に何が入っていますか。","rom":"Hako ni nani ga haitte imasu ka.","ko":"상자에 뭐가 들어 있어요?"},{"jp":"本を箱に入れました。","rom":"Hon o hako ni iremashita.","ko":"책을 상자에 넣었어요."}]}
+  ]
+}
