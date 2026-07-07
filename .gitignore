@@ -14,3 +14,7 @@ srs/backup/
 # Temp
 *.tmp
 *.bak
+
+# JLPT 공식 자료 — 공개 저장소 재배포 금지 (로컬 학습용)
+기출 문제/**
+!기출 문제/README.md
